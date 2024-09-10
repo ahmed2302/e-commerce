@@ -43,24 +43,26 @@ export default function SideBar() {
         width: isOpen ? "230px" : "60px",
       }}>
       <p className="dashboard-title">Dashboard</p>
-      <NavLinkComponent text="Users" icon={faUsers} link="users" />
-      <NavLinkComponent text="Add User" icon={faUserPlus} link="addUser" />
-      <NavLinkComponent
-        text="Categories"
-        icon={faLayerGroup}
-        link="categories"
-      />
-      <NavLinkComponent
-        text="Add Category"
-        icon={faSquarePlus}
-        link="addCategory"
-      />
-      <NavLinkComponent text="Products" icon={faBoxOpen} link="products" />
-      <NavLinkComponent
-        text="Add Products"
-        icon={faCartPlus}
-        link="addProducts"
-      />
+      <div>
+        <NavLinkComponent text="Users" icon={faUsers} link="users" />
+        <NavLinkComponent text="Add User" icon={faUserPlus} link="addUser" />
+        <NavLinkComponent
+          text="Categories"
+          icon={faLayerGroup}
+          link="categories"
+        />
+        <NavLinkComponent
+          text="Add Category"
+          icon={faSquarePlus}
+          link="addCategory"
+        />
+        <NavLinkComponent text="Products" icon={faBoxOpen} link="products" />
+        <NavLinkComponent
+          text="Add Products"
+          icon={faCartPlus}
+          link="addProducts"
+        />
+      </div>
     </div>
   );
 }

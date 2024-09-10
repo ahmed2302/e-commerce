@@ -8,13 +8,27 @@ export default function Users() {
   const [currentUser, setCurrentUser] = useState("");
   const [users, setUsers] = useState([]);
 
+  // useEffect(() => {
+  //   Axios.get(`/${USER}`)
+  //     .then((data) => setCurrentUser(data.data))
+  //     .catch((err) => console.log(err));
+  //   Axios.get(`/${USERS}`)
+  //     .then((data) => setUsers(data.data))
+  //     .catch((err) => console.log(err));
+  // }, []);
+
   useEffect(() => {
     Axios.get(`/${USER}`)
-      .then((data) => setCurrentUser(data.data))
-      .catch((err) => console.log(err));
-    Axios.get(`/${USERS}`)
-      .then((data) => setUsers(data.data))
-      .catch((err) => console.log(err));
+      .then((response) => {
+        setCurrentUser(response.data);
+        return Axios.get(`/${USERS}`);
+      })
+      .then((response) => {
+        setUsers(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   async function handleDelete(id) {
