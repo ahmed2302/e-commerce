@@ -1,19 +1,68 @@
 import { faDeleteLeft, faUserPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Table } from "react-bootstrap";
+import { Form, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "./table.css";
+import { useContext, useEffect, useState } from "react";
+import { Load } from "../../Context/LoadingContext";
+import PaginatedItems from "./Pagination/Pagination";
+import { Axios } from "../../Api/Axios";
+import TransformDate from "../../Helpers/TransformDate.js";
 
 export default function CustomTable(props) {
   const currentUser = props.currentUser || false;
+
+  // can remove it with some edit on the code
+  const { gettingData } = useContext(Load);
+  const [search, setSearch] = useState("");
+  const [date, setDate] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchLoading, setSearchLoading] = useState(false);
+
+  const filtredDataByDate = props.data.filter(
+    (item) => TransformDate(item.created_at) === date
+  );
+
+  const filtredSearchByDate = filteredData.filter(
+    (item) => TransformDate(item.created_at) === date
+  );
+
+  const dataToDisplay =
+    date.length !== 0
+      ? search.length > 0
+        ? filtredSearchByDate
+        : filtredDataByDate
+      : search.length > 0
+      ? filteredData
+      : props.data;
+
+  async function handleSearch() {
+    try {
+      const res = await Axios.post(
+        `${props.searchLink}/search?title=${search}`
+      );
+      setFilteredData(res.data);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setSearchLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    const timmer = setTimeout(() => {
+      search.length > 0 ? handleSearch() : setSearchLoading(false);
+    }, 300);
+
+    return () => clearTimeout(timmer);
+  }, [search]);
 
   const headerShow = props.header.map((item, key) => (
     <th key={key}>{item.name}</th>
   ));
 
-  const dataShow = props.data.map((item, key) => (
+  const dataShow = dataToDisplay.map((item, key) => (
     <tr key={key}>
-      <td>{key + 1}</td>
+      <td style={{ minWidth: "80px" }}>{item.id}</td>
       {props.header.map((item2, key2) => (
         <td key={key2}>
           {item[item2.key] === "1995" ? (
@@ -25,9 +74,29 @@ export default function CustomTable(props) {
           ) : item[item2.key] === "1999" ? (
             "product manager"
           ) : item2.key === "image" ? (
-            <img className="catImage" src={item[item2.key]} alt="cat" />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                flexWrap: "nowrap",
+                gap: "10px",
+                overflow: "auto",
+                width: "255px",
+                scrollbarWidth: "none",
+              }}>
+              <img className="catImage" src={item[item2.key]} alt="cat" />
+            </div>
           ) : item2.key === "images" ? (
-            <div className="d-flex align-items-center gap-1">
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "nowrap",
+                gap: "10px",
+                overflow: "auto",
+                width: "255px",
+                scrollbarWidth: "none",
+                cursor: "all-scroll",
+              }}>
               {item[item2.key].map((img, key) => (
                 <img
                   key={key}
@@ -38,6 +107,8 @@ export default function CustomTable(props) {
                 />
               ))}
             </div>
+          ) : item2.key === "updated_at" || item2.key === "created_at" ? (
+            TransformDate(item[item2.key])
           ) : (
             item[item2.key]
           )}
@@ -66,22 +137,74 @@ export default function CustomTable(props) {
   ));
 
   return (
-    <Table striped hover className="table-custom">
-      <thead>
-        <tr>
-          <th>Id</th>
-          {headerShow}
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {props.data.length === 0 && (
-          <tr className="text-center">
-            <td colSpan={12}>Loading...</td>
+    <>
+      <div className="d-flex align-items-center gap-2 mb-2">
+        <Form.Control
+          type="search"
+          placeholder="Search..."
+          aria-label="input-example"
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setSearchLoading(true);
+          }}
+        />
+      </div>
+      <div className="d-flex align-items-center gap-2 mb-2">
+        <Form.Control
+          type="date"
+          aria-label="input-example"
+          onChange={(e) => {
+            setDate(e.target.value);
+            // setDateLoading(true);
+          }}
+        />
+      </div>
+      <Table striped hover className="table-custom">
+        <thead>
+          <tr>
+            <th>Id</th>
+            {headerShow}
+            <th>Actions</th>
           </tr>
+        </thead>
+        <tbody>
+          {gettingData ? (
+            <tr className="text-center">
+              <td colSpan={12}>Loading</td>
+            </tr>
+          ) : searchLoading ? (
+            <tr className="text-center">
+              <td colSpan={12}>Searching...</td>
+            </tr>
+          ) : (
+            dataShow
+          )}
+          {dataShow.length === 0 && !gettingData && (
+            <tr className="text-center">
+              <td colSpan={12}>no data</td>
+            </tr>
+          )}
+        </tbody>
+      </Table>
+      <div className="d-flex flex-wrap justify-content-center align-items-center">
+        {props.pageCount > 1 && (
+          <div className="col-1">
+            <Form.Select
+              aria-label="Defualt select example"
+              onChange={(e) => {
+                props.setLimit(e.target.value);
+                props.setPage(1);
+              }}>
+              <option value={3}>3</option>
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={15}>15</option>
+            </Form.Select>
+          </div>
         )}
-        {dataShow}
-      </tbody>
-    </Table>
+        <PaginatedItems setPage={props.setPage} pageCount={props.pageCount} />
+      </div>
+    </>
   );
 }

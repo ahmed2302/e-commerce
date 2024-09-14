@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Axios } from "../../../Api/Axios";
 import { Cat, EDIT } from "../../../Api/Api";
 import { useNavigate, useParams } from "react-router-dom";
-import Loading from "../../../Components/Loading/Loading";
+import { Load } from "../../../Context/LoadingContext";
 
 export default function Category() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export default function Category() {
 
   const [disable, setDisable] = useState(true);
 
-  const [loading, setLoading] = useState(false);
+  const { setLoading } = useContext(Load);
 
   function handleChange(e) {
     const { name, value, type, files } = e.target;
@@ -38,6 +38,7 @@ export default function Category() {
     try {
       await Axios.post(`${Cat}/${EDIT}/${id}`, formData);
       navigate("/dashboard/categories");
+      setLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -59,33 +60,30 @@ export default function Category() {
       .finally(() => {
         setDisable(false);
       });
-  }, [id, navigate]);
+  }, [id]);
 
   return (
-    <>
-      {loading ? <Loading /> : <></>}
-      <Form onSubmit={handleSubmit} className="custom-form">
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>Title</Form.Label>
-          <Form.Control
-            name="title"
-            value={form.title}
-            onChange={handleChange}
-            required
-            type="text"
-            placeholder="Name..."
-          />
-        </Form.Group>
+    <Form onSubmit={handleSubmit} className="custom-form">
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+        <Form.Label>Title</Form.Label>
+        <Form.Control
+          name="title"
+          value={form.title}
+          onChange={handleChange}
+          required
+          type="text"
+          placeholder="Name..."
+        />
+      </Form.Group>
 
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-          <Form.Label>Image</Form.Label>
-          <Form.Control name="image" onChange={handleChange} type="file" />
-        </Form.Group>
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+        <Form.Label>Image</Form.Label>
+        <Form.Control name="image" onChange={handleChange} type="file" />
+      </Form.Group>
 
-        <Button disabled={disable} variant="primary" type="submit">
-          Save
-        </Button>
-      </Form>
-    </>
+      <Button disabled={disable} variant="primary" type="submit">
+        Save
+      </Button>
+    </Form>
   );
 }

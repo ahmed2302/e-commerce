@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Axios } from "../../../Api/Axios";
 import { ADD, Cat } from "../../../Api/Api";
 import { useNavigate } from "react-router-dom";
-import Loading from "../../../Components/Loading/Loading";
+import { Load } from "../../../Context/LoadingContext";
 
 export default function AddCategory() {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ export default function AddCategory() {
     title: "",
     image: "",
   });
-  const [loading, setLoading] = useState(false);
+  const { setLoading } = useContext(Load);
 
   const focus = useRef("");
 
@@ -37,6 +37,7 @@ export default function AddCategory() {
     formData.append("image", form.image);
     try {
       await Axios.post(`${Cat}/${ADD}`, formData);
+      setLoading(false);
       navigate("/dashboard/categories");
     } catch (err) {
       console.log(err);
@@ -44,36 +45,31 @@ export default function AddCategory() {
   }
 
   return (
-    <>
-      {loading ? <Loading /> : <></>}
-      <Form onSubmit={handleSubmit} className="custom-form">
-        {" "}
-        {/* Reusing the same form style */}
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>Title</Form.Label>
-          <Form.Control
-            name="title"
-            value={form.title}
-            onChange={handleChange}
-            required
-            type="text"
-            placeholder="Title..."
-            ref={focus}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-          <Form.Label>Image</Form.Label>
-          <Form.Control
-            name="image"
-            onChange={handleChange}
-            required
-            type="file"
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Add Category
-        </Button>
-      </Form>
-    </>
+    <Form onSubmit={handleSubmit} className="custom-form">
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+        <Form.Label>Title</Form.Label>
+        <Form.Control
+          name="title"
+          value={form.title}
+          onChange={handleChange}
+          required
+          type="text"
+          placeholder="Title..."
+          ref={focus}
+        />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+        <Form.Label>Image</Form.Label>
+        <Form.Control
+          name="image"
+          onChange={handleChange}
+          required
+          type="file"
+        />
+      </Form.Group>
+      <Button variant="primary" type="submit">
+        Add Category
+      </Button>
+    </Form>
   );
 }

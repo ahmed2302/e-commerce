@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Axios } from "../../../Api/Axios";
 import { ADD, CAT, EDIT, Pro, PROIMG } from "../../../Api/Api";
 import { useNavigate, useParams } from "react-router-dom";
-import Loading from "../../../Components/Loading/Loading";
 import uploadimg from "../../../Assest/Images/upload.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDeleteLeft } from "@fortawesome/free-solid-svg-icons";
+import { Load } from "../../../Context/LoadingContext";
 
 export default function AddProduct() {
   // useNaigate
@@ -23,7 +23,8 @@ export default function AddProduct() {
     discount: "",
     About: "",
   });
-  const [loading, setLoading] = useState(false);
+
+  const { setLoading } = useContext(Load);
   const [images, setImages] = useState([]);
   const [imagesFromServer, setImagesFromServer] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -114,7 +115,7 @@ export default function AddProduct() {
     focus.current.focus();
     Axios.get(`/${CAT}`)
       .then((data) => {
-        setCategories(data.data);
+        setCategories(data.data.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -168,6 +169,7 @@ export default function AddProduct() {
 
     try {
       await Axios.post(`${Pro}/${EDIT}/${ProductId}`, form);
+      setLoading(false);
       navigate("/dashboard/products");
     } catch (err) {
       console.log(err);
@@ -224,165 +226,160 @@ export default function AddProduct() {
   }
 
   return (
-    <>
-      {loading && <Loading />}
-      <Form onSubmit={handleEdit} className="custom-form">
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput0">
-          <Form.Label>Category</Form.Label>
-          <Form.Select
-            disabled={disabled}
-            name="category"
-            value={form.category}
-            required
-            onChange={handleChange}>
-            <option disabled>select category</option>
-            {categoriesList}
-          </Form.Select>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>Title</Form.Label>
-          <Form.Control
-            name="title"
-            disabled={disabled}
-            value={form.title}
-            onChange={handleChange}
-            required
-            type="text"
-            placeholder="Title..."
-            ref={focus}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-          <Form.Label>Description</Form.Label>
-          <Form.Control
-            name="description"
-            disabled={disabled}
-            value={form.description}
-            onChange={handleChange}
-            required
-            type="text"
-            placeholder="Description..."
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
-          <Form.Label>Price</Form.Label>
-          <Form.Control
-            name="price"
-            disabled={disabled}
-            value={form.price}
-            onChange={handleChange}
-            required
-            type="text"
-            placeholder="Price..."
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
-          <Form.Label>Discount</Form.Label>
-          <Form.Control
-            name="discount"
-            disabled={disabled}
-            value={form.discount}
-            onChange={handleChange}
-            required
-            type="text"
-            placeholder="Discount..."
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-          <Form.Label>About</Form.Label>
-          <Form.Control
-            name="About"
-            disabled={disabled}
-            value={form.About}
-            onChange={handleChange}
-            required
-            type="text"
-            placeholder="About..."
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput6">
-          <Form.Label>Images</Form.Label>
-          <Form.Control
-            onChange={handleImagesChange}
-            type="file"
-            disabled={disabled}
-            multiple
-            hidden
-            ref={uploader}
-          />
-        </Form.Group>
-        <div
-          ref={customUploader}
-          onDragOver={(e) => {
-            e.preventDefault();
-            customUploader.current.style.border = "2px solid #0086fe";
-            customUploader.current.style.backgroundColor = "#0083f71c";
-            setUploadMsg("Release to upload or browse");
-          }}
-          onDragLeave={(e) => {
-            e.preventDefault();
-            customUploader.current.style.border = "2px dashed #0086fe";
-            customUploader.current.style.backgroundColor = "unset";
-            setUploadMsg("Drag Images here or browse");
-          }}
-          onDrop={async (e) => {
-            e.preventDefault();
-            setImages((prevImages) => [...prevImages, ...e.dataTransfer.files]);
-            const imagesAsFiles = e.dataTransfer.files;
-            const data = new FormData();
-            for (let i = 0; i < imagesAsFiles.length; i++) {
-              j.current++;
-              data.append("image", imagesAsFiles[i]);
-              data.append("product_id", id);
-              try {
-                const res = await Axios.post(`${PROIMG}/${ADD}`, data, {
-                  onUploadProgress: (progressEvent) => {
-                    const { loaded, total } = progressEvent;
-                    const percent = Math.floor((loaded * 100) / total);
-                    if (percent % 10 === 0) {
-                      progress.current[j.current].style.width = `${percent}%`;
-                      progress.current[j.current].setAttribute(
-                        "percent",
-                        `${percent}%`
-                      );
-                    }
-                  },
-                });
-                imagesId.current[j.current] = res.data.id;
-              } catch (err) {
-                console.log(err);
-              }
+    <Form onSubmit={handleEdit} className="custom-form">
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput0">
+        <Form.Label>Category</Form.Label>
+        <Form.Select
+          disabled={disabled}
+          name="category"
+          value={form.category}
+          required
+          onChange={handleChange}>
+          <option disabled>select category</option>
+          {categoriesList}
+        </Form.Select>
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+        <Form.Label>Title</Form.Label>
+        <Form.Control
+          name="title"
+          disabled={disabled}
+          value={form.title}
+          onChange={handleChange}
+          required
+          type="text"
+          placeholder="Title..."
+          ref={focus}
+        />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+        <Form.Label>Description</Form.Label>
+        <Form.Control
+          name="description"
+          disabled={disabled}
+          value={form.description}
+          onChange={handleChange}
+          required
+          type="text"
+          placeholder="Description..."
+        />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
+        <Form.Label>Price</Form.Label>
+        <Form.Control
+          name="price"
+          disabled={disabled}
+          value={form.price}
+          onChange={handleChange}
+          required
+          type="text"
+          placeholder="Price..."
+        />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
+        <Form.Label>Discount</Form.Label>
+        <Form.Control
+          name="discount"
+          disabled={disabled}
+          value={form.discount}
+          onChange={handleChange}
+          required
+          type="text"
+          placeholder="Discount..."
+        />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
+        <Form.Label>About</Form.Label>
+        <Form.Control
+          name="About"
+          disabled={disabled}
+          value={form.About}
+          onChange={handleChange}
+          required
+          type="text"
+          placeholder="About..."
+        />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput6">
+        <Form.Label>Images</Form.Label>
+        <Form.Control
+          onChange={handleImagesChange}
+          type="file"
+          disabled={disabled}
+          multiple
+          hidden
+          ref={uploader}
+        />
+      </Form.Group>
+      <div
+        ref={customUploader}
+        onDragOver={(e) => {
+          e.preventDefault();
+          customUploader.current.style.border = "2px solid #0086fe";
+          customUploader.current.style.backgroundColor = "#0083f71c";
+          setUploadMsg("Release to upload or browse");
+        }}
+        onDragLeave={(e) => {
+          e.preventDefault();
+          customUploader.current.style.border = "2px dashed #0086fe";
+          customUploader.current.style.backgroundColor = "unset";
+          setUploadMsg("Drag Images here or browse");
+        }}
+        onDrop={async (e) => {
+          e.preventDefault();
+          setImages((prevImages) => [...prevImages, ...e.dataTransfer.files]);
+          const imagesAsFiles = e.dataTransfer.files;
+          const data = new FormData();
+          for (let i = 0; i < imagesAsFiles.length; i++) {
+            j.current++;
+            data.append("image", imagesAsFiles[i]);
+            data.append("product_id", id);
+            try {
+              const res = await Axios.post(`${PROIMG}/${ADD}`, data, {
+                onUploadProgress: (progressEvent) => {
+                  const { loaded, total } = progressEvent;
+                  const percent = Math.floor((loaded * 100) / total);
+                  if (percent % 10 === 0) {
+                    progress.current[j.current].style.width = `${percent}%`;
+                    progress.current[j.current].setAttribute(
+                      "percent",
+                      `${percent}%`
+                    );
+                  }
+                },
+              });
+              imagesId.current[j.current] = res.data.id;
+            } catch (err) {
+              console.log(err);
             }
-            customUploader.current.style.border = "2px dashed #0086fe";
-            customUploader.current.style.backgroundColor = "unset";
-          }}
-          onClick={() => {
-            uploader.current.click();
-          }}
-          className="d-flex justify-content-center align-items-center gap-2 flex-column mb-3 py-4 w-100"
-          style={{
-            border: "2px dashed #0086fe",
-            cursor: disabled ? "auto" : "pointer",
-            opacity: disabled ? "0.2" : "1",
-          }}>
-          <img src={uploadimg} alt="upload here" width="100px" />
-          <div
-            className="fw-bold mb-0 text-center"
-            style={{ color: "#0086fe" }}>
-            {uploadMsg}
-            <div>Upload Images with no need to save form</div>
-          </div>
+          }
+          customUploader.current.style.border = "2px dashed #0086fe";
+          customUploader.current.style.backgroundColor = "unset";
+        }}
+        onClick={() => {
+          uploader.current.click();
+        }}
+        className="d-flex justify-content-center align-items-center gap-2 flex-column mb-3 py-4 w-100"
+        style={{
+          border: "2px dashed #0086fe",
+          cursor: disabled ? "auto" : "pointer",
+          opacity: disabled ? "0.2" : "1",
+        }}>
+        <img src={uploadimg} alt="upload here" width="100px" />
+        <div className="fw-bold mb-0 text-center" style={{ color: "#0086fe" }}>
+          {uploadMsg}
+          <div>Upload Images with no need to save form</div>
         </div>
-        <div className="my-3">
-          <div className="d-flex align-items-center gap-2">
-            {imageFromServerList}
-          </div>
-          {imageList}
+      </div>
+      <div className="my-3">
+        <div className="d-flex align-items-center gap-2 flex-wrap">
+          {imageFromServerList}
         </div>
-        <Button disabled={disabled} variant="primary" type="submit">
-          Save
-        </Button>
-      </Form>
-    </>
+        {imageList}
+      </div>
+      <Button disabled={disabled} variant="primary" type="submit">
+        Save
+      </Button>
+    </Form>
   );
 }

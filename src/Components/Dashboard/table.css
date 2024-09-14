@@ -1,30 +1,26 @@
 /* Styling for the entire table */
 .table-custom {
-  background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
+  background-color: #f8f9fa !important;
+  border: 1px solid #dee2e6 !important;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
   border-collapse: collapse;
   overflow: hidden;
 }
 
-/* Styling for the table header */
 .table-custom th {
-  background-color: #343a40;
-  color: #fff;
+  background-color: #343a40 !important;
+  color: #fff !important;
   text-align: center;
   padding: 10px;
 }
 
-/* Styling for the table data cells */
 .table-custom td {
   text-align: center;
   vertical-align: middle;
   padding: 10px;
 }
 
-/* Styling for circular images (e.g., profile or category images) */
-/* Styling for product images (or any grid-like images) */
 .table-custom img.productImage,
 .table-custom img.catImage {
   border-radius: 6px;
@@ -33,24 +29,20 @@
   border: 1px solid #dee2e6;
 }
 
-/* Hover effect for table rows */
 .table-custom tbody tr:hover {
   background-color: #f1f3f5;
 }
 
-/* Primary button styling (e.g., edit button) */
 .table-custom .btn-primary {
   background-color: #007bff;
   border-color: #007bff;
 }
 
-/* Danger button styling (e.g., delete button) */
 .table-custom .btn-danger {
   background-color: #dc3545;
   border-color: #dc3545;
 }
 
-/* Styling for all buttons (common padding) */
 .table-custom .btn {
   padding: 5px 10px;
 }

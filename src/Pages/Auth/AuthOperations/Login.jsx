@@ -21,7 +21,7 @@ export default function Register() {
   // UseRef
   const focus = useRef("");
 
-// handle focus on form
+  // handle focus on form
   useEffect(() => {
     focus.current.focus();
   }, []);
@@ -44,6 +44,7 @@ export default function Register() {
       window.location.pathname = "/dashboard";
     } catch (err) {
       setLoading(false);
+      console.log(err);
       if (err.response.status === 401) setErr("Wrong Email or Password");
       else setErr("Internal Server ERR");
     }

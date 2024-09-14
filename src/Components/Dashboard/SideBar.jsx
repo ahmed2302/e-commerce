@@ -10,6 +10,7 @@ import React, { useContext, useEffect, useRef } from "react";
 import { Menu } from "../../Context/MenuContext";
 import { WindowSize } from "../../Context/WindowContext";
 import NavLinkComponent from "./NavLink";
+import { useNavigate } from "react-router-dom";
 
 export default function SideBar() {
   // Context
@@ -18,6 +19,8 @@ export default function SideBar() {
   const setIsOpen = menuContext.setIsOpen;
   const WindowContext = useContext(WindowSize);
   const windowSize = WindowContext.windowSize;
+
+  const navigate = useNavigate();
 
   // UseRef
   const hasToggledToFalse = useRef(false);
@@ -42,7 +45,14 @@ export default function SideBar() {
       style={{
         width: isOpen ? "230px" : "60px",
       }}>
-      <p className="dashboard-title">Dashboard</p>
+      <p
+        onClick={() => {
+          navigate("/dashboard");
+        }}
+        style={{ cursor: "pointer" }}
+        className="dashboard-title">
+        Dashboard
+      </p>
       <div>
         <NavLinkComponent text="Users" icon={faUsers} link="users" />
         <NavLinkComponent text="Add User" icon={faUserPlus} link="addUser" />
@@ -58,7 +68,7 @@ export default function SideBar() {
         />
         <NavLinkComponent text="Products" icon={faBoxOpen} link="products" />
         <NavLinkComponent
-          text="Add Products"
+          text="Add Product"
           icon={faCartPlus}
           link="addProducts"
         />

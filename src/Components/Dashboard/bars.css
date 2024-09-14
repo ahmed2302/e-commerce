@@ -8,12 +8,13 @@
   margin-bottom: 20px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 20px;
 }
 
 .side-bar {
-  height: 100vh;
   position: sticky;
+  height: 100vh;
   top: 0;
   left: 0;
   background-color: white;
@@ -29,8 +30,7 @@
   font-weight: bold;
   overflow-wrap: break-word;
   padding: 0 20px;
-  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3), 4px 4px 4px rgba(0, 0, 0, 0.2),
-    6px 6px 6px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3), 6px 6px 6px rgba(0, 0, 0, 0.1);
 }
 
 .side-bar-link {

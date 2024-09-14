@@ -1,0 +1,13 @@
+{
+  // "rules" لتخصيص قواعد ESLint، حيث يمكنك تعطيل أو تعديل سلوك القواعد
+  "rules": {
+    // تعطيل تحذير "المتغيرات غير المستخدمة"
+    "no-unused-vars": "off",
+
+    // تعطيل تحذير "prop-types" في React
+    "react/prop-types": "off",
+
+    // تعطيل تحذير الاعتماديات المفقودة في useEffect
+    "react-hooks/exhaustive-deps": "off"
+  }
+}

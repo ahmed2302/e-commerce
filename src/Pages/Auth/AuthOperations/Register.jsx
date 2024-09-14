@@ -32,7 +32,7 @@ export default function Register() {
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
-  
+
   // hondle Submit Form
   async function handleSubmit(e) {
     e.preventDefault();
@@ -46,6 +46,7 @@ export default function Register() {
       window.location.pathname = "/dashboard";
     } catch (err) {
       setLoading(false);
+      console.log(err);
       if (err.response.status === 422) setErr("Email is already been taken");
       else setErr("Internal Server ERR");
     }
