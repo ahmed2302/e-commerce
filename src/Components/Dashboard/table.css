@@ -2,12 +2,20 @@
 .table-custom {
   background-color: #f8f9fa !important;
   border: 1px solid #dee2e6 !important;
-  border-radius: 12px;
+  border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
   border-collapse: collapse;
   overflow: hidden;
+  width: 100%; /* Make sure the table takes the full width */
 }
 
+/* Add overflow for smaller screens */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* For smooth scrolling */
+}
+
+/* Styling for table headers */
 .table-custom th {
   background-color: #343a40 !important;
   color: #fff !important;
@@ -15,12 +23,38 @@
   padding: 10px;
 }
 
+/* Styling for table cells */
 .table-custom td {
   text-align: center;
   vertical-align: middle;
   padding: 10px;
 }
 
+/* Prevent text wrapping */
+.table-custom th,
+.table-custom td {
+  white-space: nowrap;
+}
+
+/* Media query for small screens */
+@media (max-width: 768px) {
+  .table-custom th,
+  .table-custom td {
+    font-size: 12px;
+    padding: 5px;
+  }
+}
+
+/* Media query for very small screens */
+@media (max-width: 576px) {
+  .table-custom th,
+  .table-custom td {
+    font-size: 10px;
+    padding: 3px;
+  }
+}
+
+/* Styling for images in the table */
 .table-custom img.productImage,
 .table-custom img.catImage {
   border-radius: 6px;
@@ -29,10 +63,12 @@
   border: 1px solid #dee2e6;
 }
 
+/* Highlight row on hover */
 .table-custom tbody tr:hover {
   background-color: #f1f3f5;
 }
 
+/* Button styling */
 .table-custom .btn-primary {
   background-color: #007bff;
   border-color: #007bff;
@@ -45,4 +81,15 @@
 
 .table-custom .btn {
   padding: 5px 10px;
+  font-size: 12px; /* Make buttons smaller */
 }
+
+/* Make the buttons and table content more compact on very small screens */
+@media (max-width: 576px) {
+  .table-custom .btn {
+    padding: 3px 5px;
+    font-size: 10px;
+  }
+}
+
+

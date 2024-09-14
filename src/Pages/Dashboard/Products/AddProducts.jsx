@@ -3,7 +3,7 @@ import { Button, Form } from "react-bootstrap";
 import { Axios } from "../../../Api/Axios";
 import { ADD, CAT, EDIT, Pro, PROIMG } from "../../../Api/Api";
 import { useNavigate } from "react-router-dom";
-import uploadimg from "../../../Assest/Images/upload.png";
+import uploadimg from "../../../Assets/Images/upload.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDeleteLeft } from "@fortawesome/free-solid-svg-icons";
 import { Load } from "../../../Context/LoadingContext";

@@ -138,7 +138,7 @@ export default function CustomTable(props) {
 
   return (
     <>
-      <div className="d-flex align-items-center gap-2 mb-2">
+      <div className="d-flex align-items-center gap-2 mb-3">
         <Form.Control
           type="search"
           placeholder="Search..."
@@ -149,49 +149,48 @@ export default function CustomTable(props) {
             setSearchLoading(true);
           }}
         />
-      </div>
-      <div className="d-flex align-items-center gap-2 mb-2">
         <Form.Control
           type="date"
           aria-label="input-example"
-          onChange={(e) => {
-            setDate(e.target.value);
-            // setDateLoading(true);
-          }}
+          onChange={(e) => setDate(e.target.value)}
         />
       </div>
-      <Table striped hover className="table-custom">
-        <thead>
-          <tr>
-            <th>Id</th>
-            {headerShow}
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {gettingData ? (
-            <tr className="text-center">
-              <td colSpan={12}>Loading</td>
+
+      <div className="table-responsive">
+        <Table striped hover className="table-custom">
+          <thead>
+            <tr>
+              <th>Id</th>
+              {headerShow}
+              <th>Actions</th>
             </tr>
-          ) : searchLoading ? (
-            <tr className="text-center">
-              <td colSpan={12}>Searching...</td>
-            </tr>
-          ) : (
-            dataShow
-          )}
-          {dataShow.length === 0 && !gettingData && (
-            <tr className="text-center">
-              <td colSpan={12}>no data</td>
-            </tr>
-          )}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {gettingData ? (
+              <tr className="text-center">
+                <td colSpan={12}>Loading</td>
+              </tr>
+            ) : searchLoading ? (
+              <tr className="text-center">
+                <td colSpan={12}>Searching...</td>
+              </tr>
+            ) : (
+              dataShow
+            )}
+            {dataShow.length === 0 && !gettingData && !searchLoading && (
+              <tr className="text-center">
+                <td colSpan={12}>no data</td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
+      </div>
+
       <div className="d-flex flex-wrap justify-content-center align-items-center">
         {props.pageCount > 1 && (
-          <div className="col-1">
+          <div className="col-12 col-md-1">
             <Form.Select
-              aria-label="Defualt select example"
+              aria-label="Default select example"
               onChange={(e) => {
                 props.setLimit(e.target.value);
                 props.setPage(1);
@@ -203,7 +202,11 @@ export default function CustomTable(props) {
             </Form.Select>
           </div>
         )}
-        <PaginatedItems setPage={props.setPage} pageCount={props.pageCount} />
+        <PaginatedItems
+          className="custom-pagination"
+          setPage={props.setPage}
+          pageCount={props.pageCount}
+        />
       </div>
     </>
   );

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { baseUrl, REGISTER } from "../../../Api/Api";
 import Loading from "../../../Components/Loading/Loading";
-import loginByGoogle from "../../../Assest/Images/login.png";
+import loginByGoogle from "../../../Assets/Images/login.png";
 import Form from "react-bootstrap/Form";
 import { Button } from "react-bootstrap";
 import Cookie from "cookie-universal";

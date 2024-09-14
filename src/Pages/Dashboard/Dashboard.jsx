@@ -4,23 +4,19 @@ import TobBar from "../../Components/Dashboard/TobBar";
 import { useContext } from "react";
 import Loading from "../../Components/Loading/Loading";
 import { Load } from "../../Context/LoadingContext";
+import { Menu } from "../../Context/MenuContext";
 
 export default function Dashboard() {
   const { loading } = useContext(Load);
+  const { isOpen } = useContext(Menu);
   return (
     <>
       {loading && <Loading />}
-      <div className="dashboard">
+      <div className={isOpen ? "dashboard" : "dashboard close"}>
         <SideBar />
-        <div style={{ margin: "10px", flex: "1" }} className="w-100">
+        <div className="dashboard-Home">
           <TobBar />
-          <div
-            style={{
-              borderRadius: "7px",
-              overflow: "hidden",
-            }}>
-            <Outlet />
-          </div>
+          <Outlet />
         </div>
       </div>
     </>

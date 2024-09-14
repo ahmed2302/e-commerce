@@ -6,17 +6,20 @@
   list-style: none;
   user-select: none;
   margin: 0;
+  padding: 0;
 }
 
+/* Adjust the size of pagination links */
 .custom-pagination .pagination-link,
 .custom-pagination .prev-link,
 .custom-pagination .next-link {
   display: block;
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
+  margin: 0 5px;
   border-radius: 4px;
   text-align: center;
-  line-height: 30px;
+  line-height: 40px;
   font-weight: bold;
   background-color: #0d6efd;
   color: white;
@@ -31,4 +34,33 @@
 
 .custom-pagination .active {
   background-color: #bb2d3b;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .custom-pagination .pagination-link,
+  .custom-pagination .prev-link,
+  .custom-pagination .next-link {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+  }
+
+  /* Adjust the form select to take full width on smaller screens */
+  .col-md-1 {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .custom-pagination .pagination-link,
+  .custom-pagination .prev-link,
+  .custom-pagination .next-link {
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    font-size: 10px;
+  }
 }

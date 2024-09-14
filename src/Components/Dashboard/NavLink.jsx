@@ -16,11 +16,9 @@ export default function NavLinkComponent({ text, icon, link }) {
 
   if (isOpen) {
     return (
-      <NavLink
-        to={link}
-        className="d-flex align-items-center gap-2 side-bar-link">
+      <NavLink to={link} className="side-bar-link">
         <FontAwesomeIcon icon={icon} />
-        <p className="m-0 fw-bold">{text}</p>
+        <p>{text}</p>
       </NavLink>
     );
   } else {
@@ -29,9 +27,7 @@ export default function NavLinkComponent({ text, icon, link }) {
         placement="right"
         delay={{ show: 0, hide: 0 }}
         overlay={renderTooltip}>
-        <NavLink
-          to={link}
-          className="d-flex align-items-center gap-2 side-bar-link">
+        <NavLink to={link} className="side-bar-link">
           <FontAwesomeIcon icon={icon} />
         </NavLink>
       </OverlayTrigger>

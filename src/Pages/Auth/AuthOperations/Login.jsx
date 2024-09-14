@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { baseUrl, LOGIN } from "../../../Api/Api";
 import Loading from "../../../Components/Loading/Loading";
 import Cookie from "cookie-universal";
-import loginByGoogle from "../../../Assest/Images/login.png";
+import loginByGoogle from "../../../Assets/Images/login.png";
 import { Button, Form } from "react-bootstrap";
 
 export default function Register() {
