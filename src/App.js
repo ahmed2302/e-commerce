@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import HomePage from "./Pages/Website/HomePage.jsx";
+import HomePage from "./Pages/Website/Home/HomePage.jsx";
 import Login from "./Pages/Auth/AuthOperations/Login.jsx";
 import Register from "./Pages/Auth/AuthOperations/Register.jsx";
 import GoogleCallBack from "./Pages/Auth/AuthOperations/GoogleCallBack.jsx";
@@ -17,13 +17,20 @@ import Category from "./Pages/Dashboard/Category/Category.jsx";
 import Products from "./Pages/Dashboard/Products/Products.jsx";
 import AddProduct from "./Pages/Dashboard/Products/AddProducts.jsx";
 import Product from "./Pages/Dashboard/Products/Product.jsx";
+import WebsiteCategories from "./Pages/Website/Categories/WebsiteCategories.jsx";
+import Website from "./Pages/Website/Website.jsx";
+import SingleProduct from "./Pages/Website/SignleProduct/SingleProduct.jsx";
 
 export default function App() {
   return (
     <div className="App">
       <Routes>
         {/* Public Routes */}
-        <Route path="/" element={<HomePage />} />
+        <Route element={<Website />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/categories" element={<WebsiteCategories />} />
+          <Route path="/product/:id" element={<SingleProduct />} />
+        </Route>
         <Route element={<RequireBack />}>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

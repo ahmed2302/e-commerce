@@ -1,0 +1,43 @@
+.hand {
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.custom-search {
+  color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.custom-search:focus {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1) !important;
+  border: rgba(0, 0, 0, 0.1) !important;
+  outline: rgba(0, 0, 0, 0.1) !important;
+}
+
+.category-title {
+  transition: 0.3s;
+  color: black;
+  margin: 0;
+}
+
+.category-title:hover {
+  color: rgb(85, 85, 245) !important;
+}
+
+
+/* =========================== */
+
+.image-gallery .image-gallery-icon {
+  width: 40px; /* تعديل عرض السهم */
+  height: 40px; /* تعديل ارتفاع السهم */
+}
+
+.image-gallery .image-gallery-left-nav .image-gallery-svg,
+.image-gallery .image-gallery-right-nav .image-gallery-svg {
+  width: 50px; /* عرض الأيقونة */
+  height: 50px; /* ارتفاع الأيقونة */
+}
+

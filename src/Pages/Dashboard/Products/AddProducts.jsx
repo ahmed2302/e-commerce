@@ -90,9 +90,13 @@ export default function AddProduct() {
   useEffect(() => {
     focus.current.focus();
     Axios.get(`/${CAT}`)
-      .then((data) => setCategories(data.data.data))
+      .then((data) => {
+        setCategories(data.data);
+      })
       .catch((err) => console.log(err));
   }, []);
+
+  console.log(categories);
 
   // show Categories
   const categoriesList = categories.map((category) => (

@@ -6,7 +6,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
   border-collapse: collapse;
   overflow: hidden;
-  width: 100%; /* Make sure the table takes the full width */
+  width: 100%;
 }
 
 /* Add overflow for smaller screens */
@@ -91,5 +91,3 @@
     font-size: 10px;
   }
 }
-
-

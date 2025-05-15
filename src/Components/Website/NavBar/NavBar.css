@@ -1,0 +1,53 @@
+.navbar {
+  background-color: #f8f9fa; /* لون الخلفية */
+  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* ظل خفيف */
+}
+
+.custom-search {
+  border: 1px solid #ced4da;
+  transition: all 0.3s ease;
+}
+
+.custom-search:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.category-title {
+  color: #333;
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  padding: 5px 10px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.category-title:hover {
+  color: #007bff;
+  border-bottom: 2px solid #007bff;
+}
+
+.category-title.active {
+  color: #007bff;
+  border-bottom: 2px solid #007bff;
+}
+
+.navbar .btn-primary {
+  background-color: #007bff;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.navbar .btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.navbar img {
+  transition: transform 0.3s ease;
+}
+
+.navbar img:hover {
+  transform: scale(1.05);
+}

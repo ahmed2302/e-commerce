@@ -1,0 +1,20 @@
+footer {
+  background-color: #333;
+}
+
+footer h5 {
+  color: #f8f9fa;
+}
+
+footer a {
+  color: #f8f9fa;
+}
+
+footer a:hover {
+  color: #ffc107;
+  text-decoration: underline;
+}
+
+footer p {
+  margin-bottom: 0;
+}

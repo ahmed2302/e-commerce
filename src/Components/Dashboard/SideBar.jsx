@@ -41,16 +41,16 @@ export default function SideBar() {
 
   return (
     <div className="side-bar">
-      {isOpen && (
-        <p
-          onClick={() => {
-            navigate("/dashboard");
-          }}
-          style={{ cursor: "pointer" }}
-          className="dashboard-title">
-          Dashboard
-        </p>
-      )}
+      {/* {isOpen && ( */}
+      <p
+        onClick={() => {
+          navigate("/dashboard");
+        }}
+        style={{ cursor: "pointer" }}
+        className="dashboard-title">
+        Dashboard
+      </p>
+      {/* )} */}
       <div>
         <NavLinkComponent text="Users" icon={faUsers} link="users" />
         <NavLinkComponent text="Add User" icon={faUserPlus} link="addUser" />

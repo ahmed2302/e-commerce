@@ -15,6 +15,9 @@ export const Cat = "category";
 
 export const PRO = "products";
 export const Pro = "product";
+export const LatestSale = "latest-sale";
+export const Latest = "latest";
+export const TopRated = "top-rated";
 
 export const PROIMG = "product-img";
 

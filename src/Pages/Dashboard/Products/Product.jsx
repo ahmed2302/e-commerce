@@ -115,7 +115,7 @@ export default function AddProduct() {
     focus.current.focus();
     Axios.get(`/${CAT}`)
       .then((data) => {
-        setCategories(data.data.data);
+        setCategories(data.data);
       })
       .catch((err) => console.log(err));
   }, []);
